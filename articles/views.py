@@ -8,6 +8,7 @@ from django.views.generic import (
     UpdateView,
 )
 from .models import Article
+from .forms import CommentForm
 
 
 class ArticleListView(LoginRequiredMixin, ListView):
@@ -18,6 +19,11 @@ class ArticleListView(LoginRequiredMixin, ListView):
 class ArticleDetailView(LoginRequiredMixin, DetailView):
     model = Article
     template_name = "article_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        context["form"] = CommentForm()
+        return context
 
 
 class ArticleDeleteView(LoginRequiredMixin, DeleteView):
